@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    Note details are as follows <br> <br>
+
+
+    {{note.title}} <br>
+    {{note.text}}
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModalBtn">&times;</span>
+            <!-- Form fields go here -->
+            <form id="myForm" method="POST"> <!-- Specify method="POST" -->
+                {% csrf_token %}
+                <label for="inputField">Input Field:</label>
+                <input type="text" id="inputField" name="inputField">
+            </form>
+        </div>
+        <div class="modal-footer">
+            <!-- Submit button in the modal footer -->
+            <button id="submitButton">Submit</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const modal = document.getElementById("myModal");
+            const closeModalBtn = document.getElementById("closeModalBtn");
+            const form = document.getElementById("myForm");
+            const submitButton = document.getElementById("submitButton");
+
+            // Function to open the modal
+            function openModal() {
+                modal.style.display = "block";
+            }
+
+            // Function to close the modal
+            function closeModal() {
+                modal.style.display = "none";
+            }
+
+
+            // Event listener to close the modal when the close button is clicked
+            closeModalBtn.addEventListener("click", closeModal);
+
+            // Event listener to handle the submit button click
+            submitButton.addEventListener("click", function () {
+                event.preventDefault();
+
+                // Fetch URL (replace with your Django view's URL)
+                const url = "{% url 'notes.create'%}";
+
+                // Form data
+                const formData = new FormData(form);
+
+                console.log(getCSRFToken())
+
+                // Fetch POST request
+                fetch(url, {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        "X-CSRFToken": getCSRFToken(), // Function to get CSRF token (see below)
+                    },
+                })
+            });
+
+            console.log("Done")
+
+            // Function to get the CSRF token from the page
+            function getCSRFToken() {
+                const csrfTokenTag = document.querySelector("input[name=csrfmiddlewaretoken]");
+                if (csrfTokenTag) {
+                    return csrfTokenTag.value;
+                }
+                return "";
+            }
+        });
+    </script>
+</body>
+</html>
