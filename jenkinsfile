@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'Fetching from GitHub..'
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Ujjwaldotcom/Django-Proj.git']])
+            }
+        }
+        
+        stage('Build'){
+            steps{
+                script{
+                    echo 'Building..'
+                    git branch: 'master', url: 'https://github.com/Ujjwaldotcom/Django-Proj.git'
+                    def dockerImage = "Smartnotes:1.0"
+                    docker.build(dockerImage, "-f dockerfile .")
+                }
+            }
+        }
+        
+        stage('Deploy'){
+            steps{
+                echo 'Deploying to container..'
+            }
+        }
+    }
+}
