@@ -13,7 +13,7 @@ pipeline {
             steps{
                 script{
                     echo 'Building..'
-                    git branch: 'master', url: 'https://github.com/Ujjwaldotcom/Django-Proj.git'
+                    url: 'https://github.com/Ujjwaldotcom/Django-Proj.git'
                     def dockerImage = "Smartnotes:1.0"
                     docker.build(dockerImage, "-f dockerfile .")
                 }
