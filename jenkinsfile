@@ -1,14 +1,11 @@
 pipeline {
     agent any
 
+    tools{
+        dockerTool 'Docker'
+    }
+
     stages {
-        stage('Print PATH') {
-            steps {
-                script {
-                    echo "PATH: ${env.PATH}"
-                }
-            }
-        }
 
         stage('Checkout') {
             steps {
