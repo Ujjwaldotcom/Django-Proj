@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent{
+        docker {                                                        //the agent section specifies a Docker agent with the Python 3.9.18 image, and the args option is used to mount the Docker socket. This ensures that the pipeline can interact with the Docker daemon on the host machine.
+            image 'python:3.9.18-bullseye'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+        }
+    }
 
     stages {
         stage('Checkout') {
