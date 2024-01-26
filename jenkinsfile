@@ -7,6 +7,15 @@ pipeline {
     }
 
     stages {
+
+        stage('Print PATH') {
+            steps {
+                script {
+                    echo "PATH: ${env.PATH}"
+                }
+            }
+        }
+
         stage('Checkout') {
             steps {
                 echo 'Fetching from GitHub..'
