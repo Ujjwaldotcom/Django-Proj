@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent{
+        label 'docker'
+    }
 
     tools{
         dockerTool 'Docker'
@@ -19,7 +21,7 @@ pipeline {
                 script{
                     echo 'Building..'
                     url: 'https://github.com/Ujjwaldotcom/Django-Proj.git'
-                    def dockerImage = "Smartnotes:1.0"
+                    def dockerImage = "smartnotes:1.0"
                     docker.build(dockerImage, "-f dockerfile .")
                 }
             }
