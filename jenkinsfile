@@ -43,9 +43,11 @@ pipeline {
                 dockerfile true
             }
             steps{
-                echo 'Deploying to container..'
-                def dockerContainer = docker.image("${dockerRepository}:${dockerhubVersion}").run("-p 8000:80", "--name smartnotes")
-                echo 'Run the application on - http://smartnotes:8000/'
+                script{
+                    echo 'Deploying to container..'
+                    def dockerContainer = docker.image("${dockerRepository}:${dockerhubVersion}").run("-p 8000:80", "--name smartnotes")
+                    echo 'Run the application on - http://smartnotes:8000/'
+                }
             }
         }
 
