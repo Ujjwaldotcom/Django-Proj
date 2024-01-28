@@ -33,7 +33,7 @@ pipeline {
                     def dockerImage = docker.build("${dockerImageName}", "-f dockerfile .")
 
                     echo 'Tagging docker Image..'
-                    dockerImage.tag() = ("${dockerRepository} : ${dockerhubVersion}")
+                    dockerImage.tag("${dockerRepository} : ${dockerhubVersion}")
                 }
             }
         }
