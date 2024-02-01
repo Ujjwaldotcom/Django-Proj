@@ -5,8 +5,8 @@ pipeline {
     agent any 
 
     environment{
-        dockerhubUsername = credentials('docker-hub-username')
-        dockerhubPassword = credentials('docker-hub-password')
+        dockerhubUsername = credentials('ujjwaldotcom')
+        dockerhubPassword = credentials('DrowssaP10*#')
         dockerImageName = "smartnotes:1.0"
         dockerhubRepository = "ujjwaldotcom/smartnotes"
         dockerhubVersion = "1.0"
