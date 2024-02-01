@@ -31,8 +31,9 @@ pipeline {
             steps{
                 script{
                     echo 'Building docker image..'
-                    //url: 'https://github.com/Ujjwaldotcom/Django-Proj.git'
-                    //def dockerImage = docker.build("${dockerImageName}", "-f dockerfile .")
+                    url: 'https://github.com/Ujjwaldotcom/Django-Proj.git'
+                    def dockerImage = docker.build("${dockerImageName}", "-f dockerfile .")
+                    dockerImage.tag("${dockerImageName}")
                 }
             }
         }
@@ -41,6 +42,7 @@ pipeline {
             agent{
                 dockerfile true
             }
+
             steps{
                 script{
                     echo 'Deploying to container..'
