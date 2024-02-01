@@ -5,8 +5,8 @@ pipeline {
     agent any 
 
     environment{
-        dockerhubUsername = credentials('ujjwaldotcom')
-        dockerhubPassword = credentials('DrowssaP10*#')
+        //dockerhubUsername = credentials('ujjwaldotcom')
+        //dockerhubPassword = credentials('DrowssaP10*#')
         dockerImageName = "smartnotes:1.0"
         dockerhubRepository = "ujjwaldotcom/smartnotes"
         dockerhubVersion = "1.0"
@@ -20,8 +20,10 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                echo 'Fetching from GitHub..'
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Ujjwaldotcom/Django-Proj.git']])
+                script {
+                    echo 'Fetching from GitHub..'
+                    checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Ujjwaldotcom/Django-Proj.git']])
+                }
             }
         }
         
@@ -33,7 +35,7 @@ pipeline {
                     def dockerImage = docker.build("${dockerImageName}", "-f dockerfile .")
 
                     echo 'Tagging docker Image..'
-                    dockerImage.tag("${dockerRepository} : ${dockerhubVersion}")
+                    dockerImage.tag("${dockerhubRepository} : ${dockerhubVersion}")
                 }
             }
         }
@@ -45,7 +47,7 @@ pipeline {
             steps{
                 script{
                     echo 'Deploying to container..'
-                    def dockerContainer = docker.image("${dockerRepository}:${dockerhubVersion}").run("-p 8000:80", "--name smartnotes")
+                    def dockerContainer = docker.image("${dockerhubRepository}:${dockerhubVersion}").run("-p 8000:80", "--name smartnotes")
                     echo 'Run the application on - http://smartnotes:8000/'
                 }
             }
@@ -56,18 +58,6 @@ pipeline {
                 script {
                     echo 'Waiting for manual approval...'
                     input message: 'Approve to proceed?', submitter: 'admin'
-                }
-            }
-        }
-
-        stage('Push Image to Docker Hub Repository') {
-            steps {
-                script {
-                    echo 'Pushing to Docker Hub...'
-                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-                        // Push the image to Docker Hub
-                        docker.image("${dockerRepository}:${dockerhubVersion}").push()
-                    }
                 }
             }
         }
