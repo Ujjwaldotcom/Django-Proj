@@ -33,9 +33,6 @@ pipeline {
                     echo 'Building docker image..'
                     url: 'https://github.com/Ujjwaldotcom/Django-Proj.git'
                     def dockerImage = docker.build("${dockerImageName}", "-f dockerfile .")
-
-                    echo 'Tagging docker Image..'
-                    dockerImage.tag("${dockerhubRepository} : ${dockerhubVersion}")
                 }
             }
         }
@@ -47,7 +44,7 @@ pipeline {
             steps{
                 script{
                     echo 'Deploying to container..'
-                    def dockerContainer = docker.image("${dockerhubRepository}:${dockerhubVersion}").run("-p 8000:80", "--name smartnotes")
+                    def dockerContainer = docker.image("${dockerImageName}").run("-p 8000:80", "--name smartnotes")
                     echo 'Run the application on - http://smartnotes:8000/'
                 }
             }
