@@ -33,6 +33,7 @@ pipeline {
                     echo 'Building docker image..'
                     def dockerfileLocation = "https://raw.githubusercontent.com/Ujjwaldotcom/Django-Proj/26b9f4f64f29895528c1220cd7f33b6a8c94f21c/dockerfile"
                     def dockerImage = docker.build("${dockerImageName}", "-f ${dockerfileLocation} .")
+                    echo 'Image built, now tagging it..'
                     dockerImage.tag("${dockerImageName}")
                 }
             }
