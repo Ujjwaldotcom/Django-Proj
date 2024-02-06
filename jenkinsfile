@@ -31,7 +31,7 @@ pipeline {
             steps {
                 script {
                     echo 'Building docker image..'
-                    def dockerfileLocation = "/Users/ujjwaljagtiani/Desktop/Development/Devops-Automation/Django-Proj/Notes/Repository/Django-Proj"
+                    def dockerfileLocation = "/Users/ujjwaljagtiani/Desktop/Development/Devops-Automation/Django-Proj/Notes/Repository/Django-Proj/dockerfile"
                     def dockerImage = docker.build("${dockerImageName}", "-f ${dockerfileLocation} .")
                     dockerImage.tag("${dockerImageName}")
                 }
