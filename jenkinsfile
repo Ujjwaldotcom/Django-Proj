@@ -27,16 +27,17 @@ pipeline {
             }
         }
         
-        stage('Build'){
-            steps{
-                script{
+        stage('Build') {
+            steps {
+                script {
                     echo 'Building docker image..'
-                    url: 'https://github.com/Ujjwaldotcom/Django-Proj.git'
-                    def dockerImage = docker.build("${dockerImageName}", "-f dockerfile .")
+                    def dockerfileLocation = "/Users/ujjwaljagtiani/Desktop/Development/Devops-Automation/Django-Proj/Notes/Repository/Django-Proj"
+                    def dockerImage = docker.build("${dockerImageName}", "-f ${dockerfileLocation} .")
                     dockerImage.tag("${dockerImageName}")
                 }
             }
         }
+
 
         stage('Deploy'){
             agent{
